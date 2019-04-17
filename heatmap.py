@@ -24,12 +24,13 @@ def load_points(folder):
 
     return (coords)
 
-
+"""Reads in the html outline file"""
 def get_outline():
     with open('map-outline.txt', 'r') as file:
         outline = file.read()
     return outline
 
+"""Generates a new html file with points"""
 def generate_html(points, file_out):
     f = open(f"{file_out}.html", "w")
     outline = get_outline()
