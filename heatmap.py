@@ -10,15 +10,17 @@ API_KEY = parser.get('GOOGLE', 'API_KEY')
 
 @click.command()
 @click.option("--output", default="map", help="Specify the name of the output file")
-def main(output):
-    points = load_points("gpx")
+@click.option("--input", default="gpx", help="Specify an input folder")
+@click.option("--filter", default=None, help="Specify a filter type", type=click.Choice(['running', 'cycling', 'walking']))
+def main(output, input, filter):
+    points = load_points(input, filter)
     generate_html(points, output)
 
-def load_points(folder):
+def load_points(folder, filter):
     """Loads all gpx files into a list of points"""
 
     coords = []
-    print ("Loading files...") #Loads files with progressbar
+    print (f"Loading files with type {filter}...") #Loads files with progressbar
     with click.progressbar(os.listdir(folder)) as bar:
         for filename in bar:
             if (filename.endswith(".gpx")):
@@ -26,9 +28,10 @@ def load_points(folder):
                 gpx_file = open(f'{folder}/' + filename)
                 gpx = gpxpy.parse(gpx_file)
                 for track in gpx.tracks:
-                    for segment in track.segments:
-                        for point in segment.points:
-                            coords.append([float(point.latitude), float(point.longitude)])
+                    if not filter or filter==track.type:
+                        for segment in track.segments:
+                            for point in segment.points:
+                            	coords.append([float(point.latitude), float(point.longitude)])
 
     return (coords)
 
