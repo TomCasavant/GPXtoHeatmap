@@ -4,5 +4,12 @@ This program takes a series of gpx files and outputs an html file containing an 
 ## Usage
 Fill in the API_KEY in the config-example.ini file, and rename to config.ini
 
-Commands:
+Command:
+
 python heatmap.py (optional commands) --output OUTPUTFILE --input INPUTFOLDER --filter [running | walking | cycling]
+
+- ouput defaults to "map"
+- input defaults to "gpx"
+- filter is by default null
+
+
