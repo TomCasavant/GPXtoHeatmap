@@ -32,7 +32,7 @@ def get_outline():
 
 """Generates a new html file with points"""
 def generate_html(points, file_out):
-    f = open(f"{file_out}.html", "w")
+    f = open(f"output/{file_out}.html", "w")
     outline = get_outline()
     google_points = ",\n".join([f"new google.maps.LatLng({point[0]}, {point[1]})" for point in points])
     updated_content = outline.replace("LIST_OF_POINTS", google_points).replace("API_KEY", API_KEY)
