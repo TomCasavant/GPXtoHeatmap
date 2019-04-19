@@ -1,5 +1,4 @@
 import gpxpy
-import googlemaps
 import click
 import os
 from configparser import SafeConfigParser
