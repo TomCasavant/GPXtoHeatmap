@@ -1,4 +1,5 @@
 # GPXtoHeatmap
+A complete explanation of this code can be found on [my website](https://tomcasavant.com/python,/gpx,/running,/heatmaps/2019/04/18/generating-heat-maps-from-gpx-files.html).
 This program takes a series of gpx files and outputs an html file containing an interactive heatmap from gps data.
 
 ![example output](https://media.githubusercontent.com/media/TomCasavant/GPXtoHeatmap/master/heatmap.png "heatmap output example")
