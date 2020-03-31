@@ -8,9 +8,9 @@ parser.read('config.ini')
 API_KEY = parser.get('GOOGLE', 'API_KEY')
 
 @click.command()
-@click.option("--output", default="map", help="Specify the name of the output file")
-@click.option("--input", default="gpx", help="Specify an input folder")
-@click.option("--filter", default=None, help="Specify a filter type", type=click.Choice(['running', 'cycling', 'walking']))
+@click.option("--output", default="map", help="Specify the name of the output file. Defaults to `map`")
+@click.option("--input", default="gpx", help="Specify an input folder. Defaults to `gpx`")
+@click.option("--filter", default=None, help="Specify a filter type. Defaults to no filter", type=click.Choice(['running', 'cycling', 'walking']))
 def main(output, input, filter):
     points = load_points(input, filter)
     generate_html(points, output)
@@ -42,6 +42,7 @@ def get_outline():
 
 def generate_html(points, file_out):
     """Generates a new html file with points"""
+    os.mkdir('output')
     f = open(f"output/{file_out}.html", "w")
     outline = get_outline()
     google_points = ",\n".join([f"new google.maps.LatLng({point[0]}, {point[1]})" for point in points])
