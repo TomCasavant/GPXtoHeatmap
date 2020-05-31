@@ -22,7 +22,7 @@ def load_points(folder, filter):
     print (f"Loading files with type {filter}...") #Loads files with progressbar
     with click.progressbar(os.listdir(folder)) as bar:
         for filename in bar:
-            if (filename.endswith(".gpx")):
+            if (filename.lower().endswith(".gpx")):
                 #Verify file is a gpx file
                 gpx_file = open(f'{folder}/' + filename)
                 gpx = gpxpy.parse(gpx_file)
