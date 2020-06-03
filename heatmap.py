@@ -42,7 +42,8 @@ def get_outline():
 
 def generate_html(points, file_out):
     """Generates a new html file with points"""
-    os.mkdir('output')
+    if not os.path.exists('output'):
+        os.mkdir('output')
     f = open(f"output/{file_out}.html", "w")
     outline = get_outline()
     google_points = ",\n".join([f"new google.maps.LatLng({point[0]}, {point[1]})" for point in points])
