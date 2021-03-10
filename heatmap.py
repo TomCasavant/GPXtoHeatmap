@@ -1,9 +1,9 @@
 import gpxpy
 import click
 import os
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 
-parser = SafeConfigParser()
+parser = ConfigParser()
 parser.read('config.ini')
 API_KEY = parser.get('GOOGLE', 'API_KEY')
 
