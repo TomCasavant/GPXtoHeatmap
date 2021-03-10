@@ -11,9 +11,10 @@ API_KEY = parser.get('GOOGLE', 'API_KEY')
 @click.option("--output", default="map", help="Specify the name of the output file. Defaults to `map`")
 @click.option("--input", default="gpx", help="Specify an input folder. Defaults to `gpx`")
 @click.option("--filter", default=None, help="Specify a filter type. Defaults to no filter", type=click.Choice(['running', 'cycling', 'walking']))
-def main(output, input, filter):
+@click.option("--center", default="-34.397, 150.644", help='Specify latitude and longitude for initial map centering (Format: "LAT, LONG"). Defaults to: "-34.397, 150.644"')
+def main(output, input, filter, center):
     points = load_points(input, filter)
-    generate_html(points, output)
+    generate_html(points, output, center)
 
 def load_points(folder, filter):
     """Loads all gpx files into a list of points"""
@@ -40,14 +41,14 @@ def get_outline():
         outline = file.read()
     return outline
 
-def generate_html(points, file_out):
+def generate_html(points, file_out, center):
     """Generates a new html file with points"""
     if not os.path.exists('output'):
         os.mkdir('output')
     f = open(f"output/{file_out}.html", "w")
     outline = get_outline()
     google_points = ",\n".join([f"new google.maps.LatLng({point[0]}, {point[1]})" for point in points])
-    updated_content = outline.replace("LIST_OF_POINTS", google_points).replace("API_KEY", API_KEY)
+    updated_content = outline.replace("LIST_OF_POINTS", google_points).replace("API_KEY", API_KEY).replace("LATITUDE", center.split(",")[0]).replace("LONGITUDE", center.split(",")[1])
     f.write(updated_content)
     f.close()
 
