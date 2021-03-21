@@ -14,9 +14,9 @@ INITIAL_ZOOM = parser.get('MAP', 'ZOOM')
 @click.option("--output", default="map", help="Specify the name of the output file. Defaults to `map`")
 @click.option("--input", default="gpx", help="Specify an input folder. Defaults to `gpx`")
 @click.option("--filter", default=None, help="Specify a filter type. Defaults to no filter", type=click.Choice(['running', 'cycling', 'walking']))
-def main(output, input, filter, center):
+def main(output, input, filter):
     points = load_points(input, filter)
-    generate_html(points, output, center)
+    generate_html(points, output)
 
 def load_points(folder, filter):
     """Loads all gpx files into a list of points"""
@@ -42,7 +42,7 @@ def get_outline():
         outline = file.read()
     return outline
 
-def generate_html(points, file_out, center):
+def generate_html(points, file_out):
     """Generates a new html file with points"""
     if not os.path.exists('output'):
         os.mkdir('output')
