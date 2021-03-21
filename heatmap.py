@@ -6,19 +6,20 @@ from configparser import ConfigParser
 parser = ConfigParser()
 parser.read('config.ini')
 API_KEY = parser.get('GOOGLE', 'API_KEY')
+INITIAL_LATITUDE = parser.get('MAP', 'LATITUDE')
+INITIAL_LONGITUDE = parser.get('MAP', 'LONGITUDE')
+INITIAL_ZOOM = parser.get('MAP', 'ZOOM')
 
 @click.command()
 @click.option("--output", default="map", help="Specify the name of the output file. Defaults to `map`")
 @click.option("--input", default="gpx", help="Specify an input folder. Defaults to `gpx`")
 @click.option("--filter", default=None, help="Specify a filter type. Defaults to no filter", type=click.Choice(['running', 'cycling', 'walking']))
-@click.option("--center", default="-34.397, 150.644", help='Specify latitude and longitude for initial map centering (Format: "LAT, LONG"). Defaults to: "-34.397, 150.644"')
 def main(output, input, filter, center):
     points = load_points(input, filter)
     generate_html(points, output, center)
 
 def load_points(folder, filter):
     """Loads all gpx files into a list of points"""
-
     coords = []
     print (f"Loading files with type {filter}...") #Loads files with progressbar
     with click.progressbar(os.listdir(folder)) as bar:
@@ -48,7 +49,7 @@ def generate_html(points, file_out, center):
     f = open(f"output/{file_out}.html", "w")
     outline = get_outline()
     google_points = ",\n".join([f"new google.maps.LatLng({point[0]}, {point[1]})" for point in points])
-    updated_content = outline.replace("LIST_OF_POINTS", google_points).replace("API_KEY", API_KEY).replace("LATITUDE", center.split(",")[0]).replace("LONGITUDE", center.split(",")[1])
+    updated_content = outline.replace("LIST_OF_POINTS", google_points).replace("API_KEY", API_KEY).replace("INIT_LATITUDE", INITIAL_LATITUDE).replace("INIT_LONGITUDE", INITIAL_LONGITUDE).replace("INIT_ZOOM", INITIAL_ZOOM)
     f.write(updated_content)
     f.close()
 
