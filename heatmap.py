@@ -26,7 +26,7 @@ def load_points(folder, filter):
         for filename in bar:
             if (filename.lower().endswith(".gpx")):
                 #Verify file is a gpx file
-                gpx_file = open(f'{folder}/' + filename)
+                gpx_file = open(os.path.join(folder, filename))
                 gpx = gpxpy.parse(gpx_file)
                 for track in gpx.tracks:
                     if not filter or filter==track.type:
